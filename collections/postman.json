@@ -92,7 +92,7 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"code\": 200,\n    \"msg\": \"SUCCESS\",\n    \"data\": \"update successful\"\n}"
+          "body": "{\n    \"code\": 200,\n    \"msg\": \"SUCCESS\",\n    \"data\": {\n        \"book\": {\n            \"id\": 0,\n            \"createdAt\": \"0001-01-01T00:00:00Z\",\n            \"updatedAt\": \"2023-09-28T17:56:39.759508+05:30\",\n            \"name\": \"xyz_block_book\",\n            \"metadata\": {\n                \"phone\": \"+919674753375\",\n                \"user_id\": 1\n            }\n        },\n        \"message\": \"update successful\"\n    }\n}"
         },
         {
           "name": "create book",
@@ -153,7 +153,7 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"code\": 200,\n    \"msg\": \"SUCCESS\",\n    \"data\": \"create successful\"\n}"
+          "body": "{\n    \"code\": 200,\n    \"msg\": \"SUCCESS\",\n    \"data\": {\n        \"book\": {\n            \"id\": 0,\n            \"createdAt\": \"0001-01-01T00:00:00Z\",\n            \"updatedAt\": \"2023-09-28T17:56:39.759508+05:30\",\n            \"name\": \"xyz_block_book\",\n            \"metadata\": {\n                \"phone\": \"+919674753375\",\n                \"user_id\": 1\n            }\n        },\n        \"message\": \"create successful\"\n    }\n}"
         }
       ]
     },
