@@ -46,7 +46,7 @@ To pass .env file entirely, This below part should be with the ecs task definiti
 ```
 
 
-To run the server locally, 
+### How to run the server locally? 
   1. create .env file ->
       ```
       APP_ENV = xx
@@ -65,10 +65,16 @@ To run the server locally,
       SERVICE_TOKEN_WHITELIST={"user_module":{"read":"abc","write":"cde"}}
       ```
 
-  2. install dependencies -> `go mod vendor && go mod tidy`
-  3. run `./run.sh`
+  2. Install dependencies -> `go mod tidy`
+  3. Install below items (no example as these are os dependent) ->
+     1. protoc
+     2. protoc-gen-go
+     3. protoc-gen-go-grpc
+     4. make
+  4. run `make ledger`
+  5. run `./run.sh`
 
-The server should run and have auto reload.
+The server should now run and have auto reload.
 
 Notes:
 1. Book Create/update method will create a book if the name of the book doesn't exist else it will update the book.

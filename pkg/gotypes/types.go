@@ -2,7 +2,6 @@ package gotypes
 
 import (
 	"encoding/json"
-	"fmt"
 	"reflect"
 )
 
@@ -21,7 +20,6 @@ func isJSONMap(input string, mapValType reflect.Kind) bool {
 	case reflect.Bool:
 		var m map[string]bool
 		err = json.Unmarshal(data, &m)
-		fmt.Println(err, m, len(m), reflect.TypeOf(m))
 		return err == nil && len(m) > 0 && isMapOfBool(m)
 	case reflect.String:
 		var m map[string]string
@@ -48,7 +46,6 @@ func isJSONMapOfMap(input string, mapValType reflect.Kind) bool {
 	case reflect.Bool:
 		var m map[string]map[string]bool
 		err = json.Unmarshal(data, &m)
-		fmt.Println(err, m, len(m), reflect.TypeOf(m))
 		return err == nil && len(m) > 0
 	case reflect.String:
 		var m map[string]map[string]string

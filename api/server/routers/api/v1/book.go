@@ -83,6 +83,9 @@ func CreateOrUpdateBook(c *gin.Context) {
 		return
 	}
 
-	appGin.Response(http.StatusOK, e.SUCCESS, fmt.Sprintf("%v successful", operation))
+	appGin.Response(http.StatusOK, e.SUCCESS, map[string]interface{}{
+		"book":    book,
+		"message": fmt.Sprintf("%v successful", operation),
+	})
 	return
 }

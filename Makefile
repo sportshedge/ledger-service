@@ -55,6 +55,9 @@ CLIENT_BIN = ${CLIENT_DIR}
 grpc: .EXPORT_ALL_VARIABLES $@ ## Generate Pbs and build for grpc
 
 ledger:
+	if [ ! -d "./${PROTO_DIR}/code/go" ]; then \
+        mkdir -p "./${PROTO_DIR}/code/go"; \
+    fi
 	protoc ./${PROTO_DIR}/ledger.proto --go_out=./${PROTO_DIR}/code/go --go-grpc_out=./${PROTO_DIR}/code/go
 
 test:
