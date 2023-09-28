@@ -64,9 +64,8 @@ To pass .env file entirely, This below part should be with the ecs task definiti
       EXCLUDED_BALANCE_BOOK_IDS = 1,2,3 # if not provided, will store every bookId in the balances table.
       SERVICE_TOKEN_WHITELIST={"user_module":{"read":"abc","write":"cde"}}
       ```
-
   2. Install dependencies -> `go mod tidy`
-  3. Install below items (no example as these are os dependent) ->
+  3. Install below items (no example as these are os dependent, these need to be installed in `code build stage` as well for `deployments`) ->
      1. protoc
      2. protoc-gen-go
      3. protoc-gen-go-grpc
@@ -75,6 +74,11 @@ To pass .env file entirely, This below part should be with the ecs task definiti
   5. run `./run.sh`
 
 The server should now run and have auto reload.
+
+### How to do deployments?
+- During deployments, during the build stage, it's build tool's responsibility to generate the go proto code, as it will be required for the server to start. 
+- Your build tool can run makefile or install proto to generate and copy that to dockerfile.
+- Current Dockerfile neither has support for proto code generation nor it ever will.
 
 Notes:
 1. Book Create/update method will create a book if the name of the book doesn't exist else it will update the book.

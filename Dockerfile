@@ -1,7 +1,7 @@
 FROM golang:alpine as builder
-#
-#RUN apk update && apk upgrade && \
-#    apk add --no-cache git
+
+# Install protoc and related stuff
+RUN apk add --no-cache ca-certificates
 
 RUN mkdir /app
 WORKDIR /app
@@ -18,14 +18,19 @@ RUN go mod download
 COPY . .
 COPY .env .
 
+WORKDIR /app/api/proto
+RUN mkdir -p "code/go"
+
+WORKDIR /app
+
 # RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o general_ledger_golang ./cmd/combined/main.go
 RUN go build -o general_ledger_golang ./cmd/combined/main.go
 
 # Run container
 FROM golang:alpine
 
-RUN apk --no-cache add ca-certificates
 RUN mkdir /app
+
 WORKDIR /app
 
 # Copy the binary to the production image from the builder stage.
