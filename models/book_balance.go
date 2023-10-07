@@ -18,7 +18,7 @@ type BookBalance struct {
 	BookId        string  `gorm:"primaryKey;index;column:bookId" json:"bookId"`
 	AssetId       string  `gorm:"primaryKey;index;column:assetId" json:"assetId"`
 	OperationType string  `gorm:"primaryKey;index;column:operationType" json:"operationType"`
-	Balance       float64 `gorm:"type:numeric(32,8) USING balance::numeric;check:non_negative_balance,balance >= 0 OR \"operationType\" != 'OVERALL' OR \"bookId\" = '1'" json:"balance"`
+	Balance       float64 `gorm:"type:numeric(32,8);check:non_negative_balance,balance >= 0 OR \"operationType\" != 'OVERALL' OR \"bookId\" = '1'" json:"balance"`
 }
 
 const (

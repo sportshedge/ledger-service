@@ -1,13 +1,13 @@
 app:
   JwtSecret: "${JWT_SECRET}"
-  PrefixUrl: "http://127.0.0.1:3000"
+  PrefixUrl: "http://127.0.0.1:${APP_PORT}"
   LogSavePath: "logs/"
   LogSaveName: "log"
   LogFileExt: "log"
   TimeFormat: "20060102"
 server:
   RunMode: "${RUN_MODE}"
-  HttpPort: "3000"
+  HttpPort: "${APP_PORT}"
   ReadTimeout: "60s"
   WriteTimeout: "60s"
   GrpcPort: "${GRPC_PORT}"
