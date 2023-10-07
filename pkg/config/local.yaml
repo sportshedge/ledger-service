@@ -11,7 +11,7 @@ server:
   ReadTimeout: "60s"
   WriteTimeout: "60s"
   GrpcPort: "${GRPC_PORT}"
-  ServiceTokenWhitelist: "${SERVICE_TOKEN_WHITELIST}"
+  # ServiceTokenWhitelist: "${SERVICE_TOKEN_WHITELIST}"
 database:
   Type: "${DB_TYPE}"
   User: "${DB_USER}"
