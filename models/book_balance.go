@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
 	"general_ledger_golang/pkg/logger"
@@ -26,7 +27,12 @@ const (
 )
 
 func (bB *BookBalance) ModifyBalance(operation map[string]interface{}, db *gorm.DB) error {
-	genericOp := util.DeepCopyMap(operation)
+	log := logger.Logger.WithFields(logrus.Fields{
+		"memo": operation["memo"],
+		"op":   operation,
+	})
+	// commenting genericOp based validations to reduce updated rows on db
+	// genericOp := util.DeepCopyMap(operation)
 
 	overallOp := util.DeepCopyMap(operation)
 	if _, ok := overallOp["metadata"]; !ok {
@@ -34,7 +40,10 @@ func (bB *BookBalance) ModifyBalance(operation map[string]interface{}, db *gorm.
 	}
 	overallOp["metadata"].(map[string]interface{})["operation"] = OverallOperation
 
-	operations := []map[string]interface{}{genericOp, overallOp}
+	operations := []map[string]interface{}{
+		// genericOp,
+		overallOp,
+	}
 
 	// sort the operation entries in place, everything is reference type, so sorting in-place works fine
 	for _, op := range operations {
@@ -50,21 +59,20 @@ func (bB *BookBalance) ModifyBalance(operation map[string]interface{}, db *gorm.
 			return err
 		}
 
-		// execute the queries one by one, if any query errors out, roll back
-		for _, query := range queryList {
-			for _, param := range params {
-				t := db.Exec(query, param...)
-				if t.Error != nil {
-					log := logger.Logger
-					log.WithFields(map[string]interface{}{
-						"q": map[string]interface{}{
-							"query": strings.ReplaceAll(strings.ReplaceAll(query, "\t", " "), "\n", " "),
-							"vars":  param,
-						},
-					}).Errorf("DB error, %+v", t.Error)
+		log.Infof("Executing -> quries: %+v, params: %+v", queryList, params)
 
-					return errors.New(t.Error.Error())
-				}
+		// execute the queries one by one, if any query errors out, roll back
+		for i, query := range queryList {
+			t := db.Debug().Exec(query, params[i]...)
+			if t.Error != nil {
+				log.WithFields(map[string]interface{}{
+					"q": map[string]interface{}{
+						"query": strings.ReplaceAll(strings.ReplaceAll(query, "\t", " "), "\n", " "),
+						"vars":  params[i],
+					},
+				}).Errorf("DB error, %+v", t.Error)
+
+				return errors.New(t.Error.Error())
 			}
 		}
 	}

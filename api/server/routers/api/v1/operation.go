@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 
 	"general_ledger_golang/pkg/app"
 	"general_ledger_golang/pkg/e"
@@ -28,11 +29,18 @@ func PostOperation(c *gin.Context) {
 		"metadata": metadata,
 	}
 
+	log := logger.Logger.WithFields(logrus.Fields{
+		"memo": memo,
+		"op":   opMap,
+	})
+
+	log.Infof("Request Received")
+
 	opService := &operation_service.OperationService{}
 	foundOp, err := opService.PostOperation(opMap)
 
 	if err != nil || foundOp == nil {
-		logger.Logger.Errorf("Creating Operation Failed, error: %+v", err)
+		log.Errorf("Creating Operation Failed, error: %+v", err)
 		appGin.Response(http.StatusInternalServerError, e.ERROR, map[string]interface{}{
 			"message": "Creating operation resulted in error!",
 			"error":   err.Error(),

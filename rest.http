@@ -1,0 +1,52 @@
+@server = http://127.0.0.1:3000
+@tag_v1 = api/v1
+@main_book = 4
+@block_book = 3
+
+### health check
+GET {{server}}/{{tag_v1}}/test?host=true
+
+### Create book
+POST {{server}}/{{tag_v1}}/books
+content-type: application/json
+
+{
+    "name": "xyz_block_book",
+    "metadata": {"phone": "+919674753375", "user_id": 1}
+}
+
+### Get book with balance
+GET {{server}}/{{tag_v1}}/books/{{main_book}}?balance=true
+
+### Get book without balance
+GET {{server}}/{{tag_v1}}/books/{{main_book}}?balance=false
+
+### Get balance (no book info)
+GET {{server}}/{{tag_v1}}/books/{{main_book}}/balance
+
+### Get balance (no book info)
+GET {{server}}/{{tag_v1}}/books/{{block_book}}/balance
+
+### getOperation
+GET {{server}}/{{tag_v1}}/operations?memo=17102023074155
+content-type: application/json
+
+
+### postOperation
+POST {{server}}/{{tag_v1}}/operations
+content-type: application/json
+
+{
+    "type": "TRANSFER",
+    "memo": "17102023074652", // memo is in ddmmyyyyhhmmss format
+    "entries": [{
+        "bookId": "4",
+        "assetId": "btc",
+        "value": "-1"
+    }, {
+        "bookId": "3",
+        "assetId": "btc",
+        "value": "1"
+    }],
+    "metadata": {"operation": "BLOCK"}
+}
